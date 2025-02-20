@@ -1,6 +1,6 @@
 import unittest
 import os
-
+import csv
 
 def load_csv(f):
     '''
@@ -18,6 +18,19 @@ def load_csv(f):
     base_path = os.path.abspath(os.path.dirname(__file__))
     full_path = os.path.join(base_path, f)
     # use this 'full_path' variable as the file that you open
+    dic = {}
+    with open(full_path, 'r') as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        dic[header[1]] = {}
+        dic[header[2]] = {}
+        dic[header[3]] = {}
+        for row in reader:
+            dic[header[1]][row[0]] = row[1]
+            dic[header[2]][row[0]] = row[2]
+            dic[header[3]][row[0]] = row[3]
+
+    return dic
 
 def get_annual_max(d):
     '''
@@ -31,7 +44,16 @@ def get_annual_max(d):
     Note: Don't strip or otherwise modify strings. Do not change datatypes except where necessary.
         You'll have to change vals to int to compare them. 
     '''
-    pass
+    out = []
+    for key, value in d.items():
+        max = 0
+        for month, val in value.items():
+            if int(val) > max:
+                max = int(val)
+                max_month = month
+        out.append((key, max_month, max))
+    return out
+
 
 def get_month_avg(d):
     '''
@@ -45,7 +67,15 @@ def get_month_avg(d):
     Note: Don't strip or otherwise modify strings. Do not change datatypes except where necessary. 
         You'll have to make the vals int or float here and round the avg to pass tests.
     '''
-    pass
+    dic = {}
+    for key, value in d.items():
+        dic[key] = 0
+        total = 0
+        for month, val in value.items():
+            total += val
+        dic[key] = total/12
+    return dic
+    
 
 class dis7_test(unittest.TestCase):
     '''
