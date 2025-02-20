@@ -75,6 +75,7 @@ def get_month_avg(d):
             total += val
         dic[key] = total/12
     return dic
+  
     
 
 class dis7_test(unittest.TestCase):
