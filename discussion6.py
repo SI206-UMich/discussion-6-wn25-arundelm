@@ -70,10 +70,9 @@ def get_month_avg(d):
     dic = {}
     for key, value in d.items():
         dic[key] = 0
-        total = 0
         for month, val in value.items():
-            total += int(val)
-        dic[key] = total/12
+            dic[key] += int(val)
+        dic[key] /= 12
     return dic
   
     
